@@ -78,6 +78,56 @@ function MessageSeller({ listing }) {
   );
 }
 
+function BuyBox({ item }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  if (item.sold) {
+    return (
+      <div className="buy-box sold-box">
+        <p className="msg-h">Sold</p>
+        <p>Someone already bought this item.</p>
+      </div>
+    );
+  }
+  if (!item.buyable) {
+    return (
+      <p className="buy-note">
+        This seller hasn't set up card payments yet. Send them a message below.{" "}
+        <Link href="/connect">Are you the seller?</Link>
+      </p>
+    );
+  }
+
+  async function buy() {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId: item.id }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error);
+      window.location.href = data.url;
+    } catch (err) {
+      setError(err.message || "Couldn't open checkout. Try again.");
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="buy-box">
+      <button type="button" className="btn btn-primary btn-lg" onClick={buy} disabled={busy}>
+        {busy ? "Opening secure checkout…" : `Buy now · ${formatPrice(item.price)}`}
+      </button>
+      {error && <p className="notice err" role="alert">{error}</p>}
+      <p className="fine">Secure card payment by Stripe. Test mode: use card 4242 4242 4242 4242.</p>
+    </div>
+  );
+}
+
 function Detail() {
   const { id } = useParams();
   const params = useSearchParams();
@@ -112,15 +162,24 @@ function Detail() {
         <Link href="/">All listings</Link> <span aria-hidden="true">›</span>{" "}
         <Link href={`/?cat=${item.category}`}>{categoryLabel(item.category)}</Link>
       </p>
-      {params.get("new") && <p className="notice ok" role="status">Your listing is live. Share this page with buyers.</p>}
+      {params.get("new") && (
+        <p className="notice ok" role="status">
+          Your listing is live.{" "}
+          {!item.buyable && <>Want buyers to pay by card? <Link href="/connect">Connect with Stripe</Link>.</>}
+        </p>
+      )}
+      {params.get("canceled") && <p className="notice" role="status">Checkout canceled. You weren't charged.</p>}
       <article className="detail">
         <div className="detail-img">
           <img src={item.image_url} alt={item.title} />
         </div>
         <div className="detail-info">
           <h1 className="detail-title">{item.title}</h1>
-          <p className="detail-price">{formatPrice(item.price)}</p>
+          <p className="detail-price">
+            {formatPrice(item.price)} {item.sold && <span className="badge sold inline">Sold</span>}
+          </p>
           <p className="meta">Listed {timeAgo(item.created_at)} · {categoryLabel(item.category)}</p>
+          <BuyBox item={item} />
           <h2 className="h2">Details</h2>
           <p className="desc">{item.description}</p>
           <MessageSeller listing={item} />
