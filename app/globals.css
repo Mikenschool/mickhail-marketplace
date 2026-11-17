@@ -176,3 +176,42 @@ input:focus, select:focus, textarea:focus { outline: 0; border-color: var(--acce
 }
 @media (min-width: 1100px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* Test 4: payments */
+.top-actions { display: flex; align-items: center; gap: 12px; justify-self: end; }
+.getpaid { font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none; display: none; }
+.getpaid:hover { color: var(--ink); text-decoration: underline; }
+.card-img { position: relative; }
+.badge {
+  position: absolute; left: 8px; top: 8px; padding: 3px 9px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; line-height: 1.5; letter-spacing: .01em;
+}
+.badge.sold { background: var(--ink); color: #fff; }
+.badge.buy { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgb(0 0 0 / .15); }
+.badge.inline { position: static; vertical-align: middle; margin-left: 6px; font-size: 13px; }
+.card:has(.badge.sold) .card-img img { filter: grayscale(.6); opacity: .75; }
+.notice { background: #efece5; color: var(--ink-2); }
+.fine { font-size: 13px; color: var(--ink-3); margin-top: 10px; }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid #d6d1c6; }
+.btn-ghost:hover { border-color: var(--ink-3); }
+.btn-stripe { background: #635bff; color: #fff; }
+.btn-stripe:hover { background: #5148e5; }
+.btn-stripe:disabled { opacity: .6; cursor: progress; }
+.connect-box { margin-top: 20px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.connect-box label { margin-top: 0; }
+.connect-box .btn-lg { margin-top: 16px; }
+.buy-box { margin-top: 18px; }
+.buy-box .fine { margin-top: 8px; }
+.sold-box { padding: 14px 16px; border-radius: var(--radius); background: #efece5; }
+.sold-box .msg-h { margin-bottom: 2px; }
+.buy-note { margin-top: 16px; font-size: 14px; color: var(--ink-2); padding: 12px 14px; border-radius: 10px; background: #efece5; }
+.buy-note a { color: var(--accent); font-weight: 500; }
+.result { margin-top: 24px; padding: 28px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); text-align: center; }
+.result p { color: var(--ink-2); margin-top: 8px; }
+.result.ok { border-color: #bfe0c7; }
+.result-icon { width: 52px; height: 52px; margin: 0 auto 12px !important; border-radius: 50%; display: grid; place-items: center; background: var(--ok-bg); color: var(--accent) !important; font-size: 26px; font-weight: 700; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.receipt { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; text-align: left; max-width: 380px; margin: 20px auto 0; padding: 16px; border-radius: 10px; background: var(--bg); font-size: 15px; }
+.receipt dt { color: var(--ink-3); }
+.receipt dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (min-width: 560px) { .getpaid { display: inline; } }

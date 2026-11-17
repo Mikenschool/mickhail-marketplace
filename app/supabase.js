@@ -9,7 +9,7 @@ export const BUCKET = "listing-photos";
 export const MAX_PHOTO_MB = 5;
 
 // Public columns only. seller_email is never sent to the browser.
-export const PUBLIC_COLS = "id,title,description,price,category,image_url,created_at";
+export const PUBLIC_COLS = "id,title,description,price,category,image_url,created_at,sold,buyable";
 
 export const CATEGORIES = [
   { slug: "electronics", label: "Electronics" },

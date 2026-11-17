@@ -51,9 +51,12 @@ export default function Header() {
         <Suspense fallback={<div className="search" />}>
           <SearchBox />
         </Suspense>
-        <Link href="/sell" className="btn btn-primary sell-btn">
-          <span aria-hidden="true">+</span> Sell
-        </Link>
+        <div className="top-actions">
+          <Link href="/connect" className="getpaid">Get paid</Link>
+          <Link href="/sell" className="btn btn-primary sell-btn">
+            <span aria-hidden="true">+</span> Sell
+          </Link>
+        </div>
       </div>
     </header>
   );

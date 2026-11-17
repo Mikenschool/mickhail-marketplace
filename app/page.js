@@ -39,6 +39,8 @@ function Card({ item }) {
       <Link href={`/listing/${item.id}`} className="card">
         <div className="card-img">
           <img src={item.image_url} alt="" loading="lazy" />
+          {item.sold && <span className="badge sold">Sold</span>}
+          {!item.sold && item.buyable && <span className="badge buy">Buy now</span>}
         </div>
         <div className="card-body">
           <p className="price">{formatPrice(item.price)}</p>
